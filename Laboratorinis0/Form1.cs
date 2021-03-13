@@ -13,9 +13,12 @@ namespace Laboratorinis0
 {
     public partial class Form1 : Form
     {
-        public string Nuoroda = @"C:\Lab1\Moduliai.txt";
-        public List<string> Eilutes = new List<string>();
+        public string NuorodaModuliai = @"C:\Lab1\Moduliai.txt";
+        public string NuorodaPaskaitos = @"C:\Lab1\Paskaitos.txt";
+        public List<string> EilutesModuliai = new List<string>();
+        public List<string> EilutesPaskaitos = new List<string>();
         public List<Modulis> Moduliai = new List<Modulis>();
+        public List<Paskaita> Paskaitos = new List<Paskaita>();
         public Form1()
         {
             InitializeComponent();
@@ -23,11 +26,21 @@ namespace Laboratorinis0
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            Eilutes = File.ReadAllLines(Nuoroda).ToList();
-            foreach(string line in Eilutes)
+            EilutesModuliai = File.ReadAllLines(NuorodaModuliai).ToList();
+            for(int i = 0; i < EilutesModuliai.Count; i++)
             {
-                string[] items = line.Split(',');
-                Modulis m = new Modulis(items[0],);
+                string[] items = EilutesModuliai[i].Split(',');
+                foreach (string pask in EilutesPaskaitos)
+                {
+                    string[] item = pask.Split(',');
+                    if (item[0] == items[0])
+                    {
+                        Paskaita p = new Paskaita(Int32.Parse(item[0]), Int32.Parse(item[1]));
+                        Paskaitos.Add(p);
+                    }
+                }
+                Modulis m = new Modulis(items[1], Paskaitos);
+                Moduliai.Add(m);
             }
         }
 
